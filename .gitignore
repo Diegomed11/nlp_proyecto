@@ -1,0 +1,23 @@
+# Datos crudos de la API (gitignored, se regeneran con src/extract) — §13
+data/raw/
+
+# Secretos
+.env
+*.token
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Modelos pesados / checkpoints
+*.pt
+*.onnx
+models/checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db

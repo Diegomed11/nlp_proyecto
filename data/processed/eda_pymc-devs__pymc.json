@@ -1,0 +1,143 @@
+{
+  "repo": "pymc-devs/pymc",
+  "totals": {
+    "items": 8134,
+    "issues": 3515,
+    "pull_requests": 4619
+  },
+  "state": {
+    "closed": 7657,
+    "open": 477
+  },
+  "issues_by_year": {
+    "2011": 62,
+    "2012": 46,
+    "2013": 191,
+    "2014": 165,
+    "2015": 126,
+    "2016": 325,
+    "2017": 495,
+    "2018": 232,
+    "2019": 190,
+    "2020": 265,
+    "2021": 374,
+    "2022": 443,
+    "2023": 242,
+    "2024": 185,
+    "2025": 108,
+    "2026": 66
+  },
+  "temporal_split_estimate": {
+    "train_<=2024": 3341,
+    "eval_2025+": 174
+  },
+  "labels": {
+    "distinct": 41,
+    "top20": [
+      [
+        "bug",
+        875
+      ],
+      [
+        "enhancements",
+        573
+      ],
+      [
+        "docs",
+        499
+      ],
+      [
+        "maintenance",
+        454
+      ],
+      [
+        "beginner friendly",
+        351
+      ],
+      [
+        "no releasenotes",
+        340
+      ],
+      [
+        "help wanted",
+        182
+      ],
+      [
+        "logprob",
+        175
+      ],
+      [
+        "request discussion",
+        169
+      ],
+      [
+        "tests",
+        163
+      ],
+      [
+        "pytensor",
+        157
+      ],
+      [
+        "v4",
+        140
+      ],
+      [
+        "Github CI/CD",
+        140
+      ],
+      [
+        "feature request",
+        136
+      ],
+      [
+        "major",
+        99
+      ],
+      [
+        "jax",
+        96
+      ],
+      [
+        "release",
+        90
+      ],
+      [
+        "trace-backend",
+        71
+      ],
+      [
+        "v3",
+        64
+      ],
+      [
+        "shape problem",
+        63
+      ]
+    ],
+    "module_like_top20": [],
+    "issues_with_module_label": 0,
+    "issues_with_module_label_pct": 0.0
+  },
+  "issue_text_features_pct": {
+    "has_body": 99.7,
+    "traceback": 23.0,
+    "code_fence": 52.7,
+    "issue_ref": 11.0,
+    "inline_code": 49.4
+  },
+  "issue_body_length": {
+    "chars": {
+      "min": 1,
+      "median": 889,
+      "p90": 4890,
+      "max": 147192
+    },
+    "lines": {
+      "min": 1,
+      "median": 20,
+      "p90": 106,
+      "max": 1757
+    }
+  }
+}

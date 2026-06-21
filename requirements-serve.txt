@@ -1,0 +1,2 @@
+# Despliegue minimalista — §10, §14. ONNX + stdlib http.server.
+onnxruntime>=1.17

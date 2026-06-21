@@ -1,0 +1,222 @@
+{
+  "repo": "scipy/scipy",
+  "totals": {
+    "items": 25408,
+    "issues": 11488,
+    "pull_requests": 13920
+  },
+  "state": {
+    "closed": 23590,
+    "open": 1818
+  },
+  "issues_by_year": {
+    "2013": 2203,
+    "2014": 518,
+    "2015": 578,
+    "2016": 576,
+    "2017": 637,
+    "2018": 672,
+    "2019": 781,
+    "2020": 931,
+    "2021": 894,
+    "2022": 961,
+    "2023": 842,
+    "2024": 926,
+    "2025": 698,
+    "2026": 271
+  },
+  "temporal_split_estimate": {
+    "train_<=2024": 10519,
+    "eval_2025+": 969
+  },
+  "labels": {
+    "distinct": 66,
+    "top20": [
+      [
+        "defect",
+        6036
+      ],
+      [
+        "maintenance",
+        4668
+      ],
+      [
+        "enhancement",
+        4291
+      ],
+      [
+        "scipy.stats",
+        4240
+      ],
+      [
+        "Documentation",
+        3922
+      ],
+      [
+        "scipy.optimize",
+        2392
+      ],
+      [
+        "Migrated from Trac",
+        1891
+      ],
+      [
+        "scipy.signal",
+        1572
+      ],
+      [
+        "scipy.special",
+        1549
+      ],
+      [
+        "scipy.linalg",
+        1307
+      ],
+      [
+        "scipy.sparse",
+        1153
+      ],
+      [
+        "scipy.interpolate",
+        1129
+      ],
+      [
+        "scipy.spatial",
+        1074
+      ],
+      [
+        "scipy.sparse.linalg",
+        906
+      ],
+      [
+        "Build issues",
+        882
+      ],
+      [
+        "CI",
+        858
+      ],
+      [
+        "scipy.integrate",
+        647
+      ],
+      [
+        "C/C++",
+        618
+      ],
+      [
+        "scipy.ndimage",
+        603
+      ],
+      [
+        "query",
+        570
+      ]
+    ],
+    "module_like_top20": [
+      [
+        "scipy.stats",
+        4240
+      ],
+      [
+        "scipy.optimize",
+        2392
+      ],
+      [
+        "scipy.sparse",
+        2260
+      ],
+      [
+        "scipy.signal",
+        1572
+      ],
+      [
+        "scipy.special",
+        1549
+      ],
+      [
+        "scipy.linalg",
+        1307
+      ],
+      [
+        "scipy.interpolate",
+        1129
+      ],
+      [
+        "scipy.spatial",
+        1074
+      ],
+      [
+        "scipy.integrate",
+        647
+      ],
+      [
+        "scipy.ndimage",
+        603
+      ],
+      [
+        "scipy.io",
+        544
+      ],
+      [
+        "scipy._lib",
+        319
+      ],
+      [
+        "scipy.cluster",
+        297
+      ],
+      [
+        "scipy.fft",
+        173
+      ],
+      [
+        "scipy.misc",
+        91
+      ],
+      [
+        "scipy.odr",
+        91
+      ],
+      [
+        "scipy.fftpack",
+        81
+      ],
+      [
+        "scipy.constants",
+        60
+      ],
+      [
+        "scipy.differentiate",
+        30
+      ],
+      [
+        "scipy.datasets",
+        22
+      ]
+    ],
+    "issues_with_module_label": 8095,
+    "issues_with_module_label_pct": 70.5
+  },
+  "issue_text_features_pct": {
+    "has_body": 99.7,
+    "traceback": 15.0,
+    "code_fence": 60.9,
+    "issue_ref": 7.7,
+    "inline_code": 48.1
+  },
+  "issue_body_length": {
+    "chars": {
+      "min": 2,
+      "median": 1090,
+      "p90": 4515,
+      "max": 252156
+    },
+    "lines": {
+      "min": 1,
+      "median": 26,
+      "p90": 108,
+      "max": 3562
+    }
+  }
+}

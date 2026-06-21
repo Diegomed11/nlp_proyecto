@@ -1,0 +1,10 @@
+# Núcleo del proyecto (§14 del plan).
+# La EXTRACCIÓN (Fase 0) no necesita NADA: solo stdlib (urllib, json, ...).
+# Estas dos solo entran a partir de la Fase 2 (álgebra) y el EDA.
+numpy>=2.0
+matplotlib>=3.8
+
+# Dependencias opcionales separadas a propósito (filosofía minimalista):
+#   - Nivel transformer:  requirements-transformer.txt  (transformers, torch)
+#   - Despliegue:         requirements-serve.txt        (onnxruntime)
+# Producción puede correr el baseline con <=2 dependencias.
