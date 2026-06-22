@@ -30,54 +30,52 @@ el keyword casi-oráculo da 0.83; cuando **no lo nombra** (44 issues), keyword�
 puede) pero **TF-IDF→0.60** (generaliza por co-ocurrencias). El valor de modelar el texto
 está en la cola difícil. Síntesis completa en [report/reporte.md](report/reporte.md).
 
-## Cómo correr cada fase
+## Flujo del proyecto
+
+El pipeline va de texto crudo a módulo predicho en **6 etapas**. Cada carpeta de `src/`
+es una etapa, en orden:
+
+```
+src/
+├── data/             1. DATOS         extracción (GitHub API) + curación + split + EDA
+├── preprocess/       2. PREPROCESAR   tokenizer técnico (separa código/prosa, traceback)
+├── representations/  3. REPRESENTAR   bow, tfidf, ngrams, bpe, word2vec  (texto → números)
+├── models/           4. MODELO        regresión logística multi-label (numpy)
+├── eval/             5. EVALUAR       métricas, baselines, ablación, análisis de errores
+└── serve/            6. DESPLEGAR     artefacto baseline + http.server (numpy + stdlib)
+
+action/    GitHub Action (triaje en vivo)        notebooks/  demos por etapa (ver su README)
+artifact/  modelo baseline serializado (1.5 MB)  report/     reporte técnico + resultados
+data/      raw/ (gitignored) · processed/ (dataset curado) · datasheet.md
+```
+
+### Correr el pipeline, en orden
 
 ```bash
-python -m src.extract.fetch scipy/scipy   # Fase 0 (requiere GITHUB_TOKEN en .env)
-python -m src.dataset                      # curación + split temporal
-python -m src.eval.eda scipy/scipy         # EDA
-python notebooks/02_tokenizer_demo.py      # Fase 1
-python -m src.experiment                   # Fase 2 (baselines + clásicas)
-python notebooks/03_bpe_demo.py            # Fase 3 — BPE
-python notebooks/03b_word2vec_demo.py      # Fase 3 — word2vec
-python -m src.error_analysis               # Fase 5
-python -m src.serve.build_artifact         # Fase 6 — artefacto baseline
-python -m src.serve.server                 # Fase 6 — servicio HTTP (numpy + stdlib)
+# 1. DATOS  (la extracción requiere GITHUB_TOKEN en .env — lectura pública)
+python -m src.data.fetch scipy/scipy     # extrae issues+PRs → data/raw/
+python -m src.data.dataset                # curación + split temporal → data/processed/
+python -m src.data.eda scipy/scipy        # EDA del dataset
+
+# 2-3. PREPROCESAR + REPRESENTAR  (demos — ver notebooks/README.md)
+python notebooks/01_eda.py                # panorama del dataset
+python notebooks/02_tokenizer.py          # tokenizer: tabla de decisiones
+python notebooks/03_bpe.py                # BPE: merges + OOV
+python notebooks/04_word2vec.py           # word2vec: vecinos de dominio (~20 min)
+
+# 4-5. MODELO + EVALUAR
+python -m src.eval.experiment             # ablación: baselines vs BoW/TF-IDF/n-grams
+python -m src.eval.error_analysis         # análisis de errores (nombre presente vs ausente)
+
+# 6. DESPLEGAR
+python -m src.serve.build_artifact        # (re)genera el modelo en artifact/baseline/
+python -m src.serve.predict --title "csr_matrix bug" --body "..."   # predicción suelta
+python -m src.serve.server                # servicio HTTP local (numpy + stdlib)
 ```
 
-## Estructura
-
-```
-src/extract/      cliente GitHub API (urllib, stdlib) + caché de JSON crudo
-src/preprocess/   tokenizer, normalización, segmentación código/prosa
-src/representations/  bow, tfidf, ngrams, bpe, word2vec  (from scratch)
-src/models/       logreg.py (numpy, multi-label)
-src/eval/         métricas multi-label, split temporal, análisis de errores
-src/serve/        baseline serializado + http.server (numpy + stdlib)
-data/             raw/ (gitignored)  ·  processed/  ·  datasheet.md
-notebooks/        01_eda … 05_error_analysis
-report/           reporte técnico
-```
-
-## Uso rápido
-
-### Fase 0 — extracción de datos
-
-La extracción solo usa la **stdlib** (cero dependencias). Necesita un GitHub
-Personal Access Token (solo lectura pública) para subir el rate limit de 60 a
-5000 req/h.
-
-```bash
-# 1. Token: https://github.com/settings/tokens  (scope: public_repo o solo lectura)
-export GITHUB_TOKEN=ghp_xxx          # PowerShell: $env:GITHUB_TOKEN="ghp_xxx"
-
-# 2. Extraer issues + PRs de un repo (se cachean en data/raw/<repo>/)
-python -m src.extract.fetch scipy/scipy
-python -m src.extract.fetch pymc-devs/pymc
-```
-
-El resto de fases se instalan con `pip install -r requirements.txt` (numpy +
-matplotlib).
+> **Token (etapa 1):** crea uno en https://github.com/settings/tokens (lectura pública) y
+> ponlo en `.env` como `GITHUB_TOKEN=ghp_xxx` (sube el rate limit de 60 a 5000 req/h).
+> Lo demás: `pip install -r requirements.txt` (numpy + matplotlib).
 
 ## Filosofía de dependencias
 

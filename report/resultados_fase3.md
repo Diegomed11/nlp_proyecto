@@ -1,7 +1,7 @@
 # Resultados — Fase 3 (neuronales from scratch: BPE + word2vec)
 
 Ambos implementados a mano sobre numpy/stdlib. Reproducir:
-`python notebooks/03_bpe_demo.py` y `python notebooks/03b_word2vec_demo.py`.
+`python notebooks/03_bpe.py` y `python notebooks/04_word2vec.py`.
 
 ## BPE — tabla de merges (corpus: 1.42M tokens, 54k palabras únicas)
 

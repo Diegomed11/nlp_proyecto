@@ -1,4 +1,4 @@
-"""Construye el dataset curado de SciPy para clasificación de módulo (tarea núcleo).
+"""Construye el dataset curado de SciPy para clasificación de módulo 
 
 Decisiones de curación (se documentan en data/datasheet.md):
 - **Solo issues** (no PRs): el sistema clasifica issues entrantes.
@@ -11,7 +11,7 @@ Decisiones de curación (se documentan en data/datasheet.md):
   futuro y no filtra vocabulario de releases entre train y test.
 
 CLI:
-    python -m src.dataset                 # genera data/processed/scipy/{train,eval}.jsonl
+    python -m src.data.dataset            # genera data/processed/scipy/{train,eval}.jsonl
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.extract.fetch import DEFAULT_OUT, is_pull_request, slugify
+from src.data.fetch import DEFAULT_OUT, is_pull_request, slugify
 
 PROCESSED = DEFAULT_OUT.parent / "processed"
 REPO = "scipy/scipy"
@@ -101,7 +101,6 @@ def write_jsonl(records: list[dict], path: Path) -> None:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
 
-# -- carga para modelado -----------------------------------------------------
 SCIPY_DIR = PROCESSED / "scipy"
 
 

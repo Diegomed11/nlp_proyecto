@@ -1,4 +1,4 @@
-"""Regresión logística multi-label en numpy (Nivel 1, §8).
+"""Regresión logística multi-label .
 
 One-vs-rest: K clasificadores binarios que comparten la matriz de features, como una
 sola matriz de pesos W (n_features × K) + sesgo b. Sigmoide por clase, pérdida de

@@ -40,7 +40,6 @@ class Word2Vec:
         self.batch_size = batch_size
         self.rng = np.random.default_rng(seed)
 
-    # -- vocabulario ------------------------------------------------------
     def build_vocab(self, corpus: list[list[str]]) -> None:
         from collections import Counter
 
@@ -63,7 +62,6 @@ class Word2Vec:
         self.W_in = (self.rng.uniform(-0.5, 0.5, (V, self.dim)) / self.dim)
         self.W_out = np.zeros((V, self.dim))
 
-    # -- generación de pares (vectorizada por offset) ---------------------
     def _pairs(self, corpus: list[list[str]]) -> tuple[np.ndarray, np.ndarray]:
         centers: list[np.ndarray] = []
         contexts: list[np.ndarray] = []
@@ -86,7 +84,6 @@ class Word2Vec:
             return np.array([], dtype=int), np.array([], dtype=int)
         return np.concatenate(centers), np.concatenate(contexts)
 
-    # -- entrenamiento ----------------------------------------------------
     def fit(self, corpus: list[list[str]], verbose: bool = True) -> "Word2Vec":
         self.build_vocab(corpus)
         c_all, o_all = self._pairs(corpus)
@@ -118,7 +115,6 @@ class Word2Vec:
         self.vectors = self.W_in / (np.linalg.norm(self.W_in, axis=1, keepdims=True) + 1e-9)
         return self
 
-    # -- consulta ---------------------------------------------------------
     def most_similar(self, word: str, topn: int = 10) -> list[tuple[str, float]]:
         if word not in self.stoi:
             return []

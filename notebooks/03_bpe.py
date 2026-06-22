@@ -1,6 +1,6 @@
 """Demo de BPE (Fase 3, notebook 03): tabla de merges + descomposición de OOV.
 
-    python notebooks/03_bpe_demo.py
+    python notebooks/03_bpe.py
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.dataset import tokenized_split  # noqa: E402
+from src.data.dataset import tokenized_split  # noqa: E402
 from src.preprocess.tokenizer import Tokenizer  # noqa: E402
 from src.representations.bpe import BPE  # noqa: E402
 

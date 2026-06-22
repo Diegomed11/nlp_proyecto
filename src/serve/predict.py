@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.preprocess.tokenizer import Tokenizer, TokenizerConfig
+from src.preprocess.tokenizer import Tokenizer, TokenizerConfig, traceback_frames
 from src.representations import TfidfVectorizer
 
 ARTIFACT = Path("artifact/baseline")
@@ -26,6 +26,14 @@ ARTIFACT = Path("artifact/baseline")
 
 def _sigmoid(z: np.ndarray) -> np.ndarray:
     return 1.0 / (1.0 + np.exp(-np.clip(z, -30, 30)))
+
+
+def _pick_location(frames: list[dict]) -> dict | None:
+    """El frame más profundo dentro del proyecto (scipy) es el sospechoso principal."""
+    if not frames:
+        return None
+    in_project = [f for f in frames if "scipy" in (f.get("file") or "").lower()]
+    return (in_project or frames)[-1]
 
 
 class BaselinePredictor:
@@ -50,6 +58,32 @@ class BaselinePredictor:
         above = [(c, round(p, 4)) for c, p in ranked if p >= thr]
         # si nada supera el umbral, devuelve el más probable (mejor sugerencia)
         return above or [(ranked[0][0], round(ranked[0][1], 4))]
+
+    def explain(self, title: str, body: str = "", top_terms: int = 5) -> dict:
+        """Predicción + identificadores clave + ubicación probable (del traceback)."""
+        text = (title or "") + "\n" + (body or "")
+        tokens = self.tokenizer.tokenize(text)
+        X = self.vec.transform([tokens]).row_l2_normalize()
+        probs = _sigmoid(X.dot(self.W) + self.b)[0]
+        order = list(np.argsort(-probs))
+        ranked = [(self.classes[i], float(probs[i])) for i in order]
+        top = int(order[0])
+        # identificadores que más empujaron a la clase top (ignora <TOKENS> especiales)
+        inv = {idx: feat for feat, idx in self.vec.counts.vocabulary_.items()}
+        contrib = []
+        for k in range(X.nnz):
+            feat = inv[int(X.indices[k])]
+            if feat.startswith("<"):
+                continue
+            contrib.append((feat, float(X.data[k] * self.W[int(X.indices[k]), top])))
+        key_terms = [t for t, v in sorted(contrib, key=lambda kv: -kv[1]) if v > 0][:top_terms]
+        frames = traceback_frames(text)
+        return {
+            "modules": ranked,
+            "key_terms": key_terms,
+            "frames": frames,
+            "location": _pick_location(frames),
+        }
 
 
 def main(argv: list[str] | None = None) -> int:

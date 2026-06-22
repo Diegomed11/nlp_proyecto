@@ -1,4 +1,4 @@
-"""Extracción de issues + PRs de un repo y caché del JSON crudo (Fase 0).
+"""Extracción de issues + PRs de un repo y caché del JSON crudo 
 
 Paginación **por cursor** (`after`/`before` vía el header `Link`): la API REST de
 GitHub corta la paginación por `page` en la página 100 (10.000 items) para
@@ -13,9 +13,9 @@ traen la clave `pull_request`. Se guardan ambos crudos; la separación y curaci�
 viven en un paso posterior (`project_issue`).
 
 CLI:
-    python -m src.extract.fetch scipy/scipy
-    python -m src.extract.fetch pymc-devs/pymc --max-pages 2   # prueba rápida
-    python -m src.extract.fetch scipy/scipy --force            # ignora caché/estado
+    python -m src.data.fetch scipy/scipy
+    python -m src.data.fetch pymc-devs/pymc --max-pages 2   # prueba rápida
+    python -m src.data.fetch scipy/scipy --force            # ignora caché/estado
 """
 
 from __future__ import annotations

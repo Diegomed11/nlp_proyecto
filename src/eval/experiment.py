@@ -1,4 +1,4 @@
-"""Experimentos clásicos (Fase 2, notebook 04): baselines vs BoW/TF-IDF/n-grams + logreg.
+"""Experimentos clásicos: baselines vs BoW/TF-IDF/n-grams + logreg.
 
 Todo bajo el split TEMPORAL (train ≤2024, eval 2025+). Responde a §9.2: ¿le gana el NLP
 a los baselines tontos, y cuánto aporta IDF, el orden local (n-gramas) y splitear los
@@ -7,7 +7,7 @@ identificadores con punto?
 Config honesta: umbral fijo 0.5 (sin tunear en test); el desbalance se maneja con pesos
 de clase acotados (cap=10), no ajustando el umbral sobre la evaluación.
 
-    python -m src.experiment
+    python -m src.eval.experiment
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ import time
 
 import numpy as np
 
-from src.dataset import load_classes, load_split, labels_matrix, tokenized_split
+from src.data.dataset import load_classes, load_split, labels_matrix, tokenized_split
 from src.eval import metrics
 from src.eval.baselines import KeywordBaseline, MajorityBaseline
 from src.models import MultiLabelLogReg

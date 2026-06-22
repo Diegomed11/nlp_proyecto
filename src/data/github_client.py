@@ -1,6 +1,6 @@
-"""Cliente mínimo de la API REST de GitHub — solo stdlib.
+"""Cliente mínimo de la API REST de GitHub 
 
-Filosofía del proyecto (§5, §14): cero dependencias para la extracción. Maneja
+Filosofía del proyecto  cero dependencias para la extracción. Maneja
 autenticación por token, paginación vía la cabecera `Link`, y rate limits
 (primario y secundario) respetando las cabeceras `X-RateLimit-*` y `Retry-After`.
 
@@ -86,7 +86,6 @@ class GitHubClient:
         self.max_retries = max_retries
         self.verbose = verbose
 
-    # -- internos ---------------------------------------------------------
 
     def _headers(self) -> dict[str, str]:
         headers = {
@@ -116,7 +115,6 @@ class GitHubClient:
         self._log(f"rate limit / transitorio — durmiendo {wait}s (intento {attempt})")
         time.sleep(wait)
 
-    # -- API pública ------------------------------------------------------
 
     def request(self, path: str, params: dict | None = None) -> tuple[object, dict]:
         """Una petición GET. Devuelve `(json_decodificado, headers)`.

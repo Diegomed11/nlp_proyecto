@@ -1,6 +1,6 @@
-"""Demo de word2vec (Fase 3, notebook 03): vecinos de dominio.
+"""Demo de word2vec (Fase 3, notebook 04): vecinos de dominio.
 
-    python notebooks/03b_word2vec_demo.py
+    python notebooks/04_word2vec.py
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.dataset import tokenized_split  # noqa: E402
+from src.data.dataset import tokenized_split  # noqa: E402
 from src.preprocess.tokenizer import Tokenizer  # noqa: E402
 from src.representations.word2vec import Word2Vec  # noqa: E402
 

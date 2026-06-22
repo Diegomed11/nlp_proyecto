@@ -1,4 +1,4 @@
-"""EDA sobre los datos crudos extraídos (notebook 01 del plan).
+"""EDA sobre los datos crudos extraídos
 
 Cuantifica lo que informa las decisiones de las fases siguientes:
 - **Split temporal** (§5): issues por año → ¿hay suficiente data 2025+ para eval?
@@ -8,8 +8,8 @@ Cuantifica lo que informa las decisiones de las fases siguientes:
   identificadores y `#refs` → justifica la decisión señal-vs-ruido del traceback.
 
 Solo stdlib. CLI:
-    python -m src.eval.eda scipy/scipy
-    python -m src.eval.eda pymc-devs/pymc
+    python -m src.data.eda scipy/scipy
+    python -m src.data.eda pymc-devs/pymc
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from src.extract.fetch import DEFAULT_OUT, is_pull_request, slugify
+from src.data.fetch import DEFAULT_OUT, is_pull_request, slugify
 
 # Patrones de características textuales (presencia, no conteo exhaustivo).
 RE_CODE_FENCE = re.compile(r"```")

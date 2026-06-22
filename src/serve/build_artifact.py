@@ -14,7 +14,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.dataset import load_classes, load_split, labels_matrix, tokenized_split
+from src.data.dataset import load_classes, load_split, labels_matrix, tokenized_split
 from src.models import MultiLabelLogReg
 from src.preprocess.tokenizer import Tokenizer, TokenizerConfig
 from src.representations import TfidfVectorizer

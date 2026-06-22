@@ -1,7 +1,7 @@
 # Tokenizer técnico — tabla de decisiones (Fase 1)
 
 Evidencia del peldaño firma (§7, §17). Cada decisión es justificable con un ejemplo y
-configurable por flag para ablacionar. Reproducible: `python notebooks/02_tokenizer_demo.py`.
+configurable por flag para ablacionar. Reproducible: `python notebooks/02_tokenizer.py`.
 Implementación: [`src/preprocess/tokenizer.py`](../src/preprocess/tokenizer.py).
 
 ## Por qué no `.lower().split()`

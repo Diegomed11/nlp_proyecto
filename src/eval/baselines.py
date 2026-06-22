@@ -1,4 +1,4 @@
-"""Baselines tontos que el NLP debe superar (§9.2).
+"""Baselines tontos que el NLP debe superar 
 
 Si el modelo no le gana a estos, no está aprendiendo nada útil:
 - **Majority**: predice siempre el módulo más común (`stats`). Mide el desbalance.

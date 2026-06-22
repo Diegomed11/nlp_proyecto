@@ -1,11 +1,11 @@
-"""Análisis de errores lingüístico (Fase 5, §9): dónde y por qué falla cada representación.
+"""Análisis de errores lingüístico: dónde y por qué falla cada representación.
 
 Pregunta clave: el keyword gana cuando el módulo se nombra. ¿Qué pasa cuando NO se nombra
 (issues descritos por síntomas)? Ahí debería notarse el valor de una representación que
 generaliza (TF-IDF) frente al match literal. Particiona eval en "nombre presente" vs
 "ausente" y compara keyword vs TF-IDF+logreg.
 
-    python -m src.error_analysis
+    python -m src.eval.error_analysis
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ from collections import Counter
 
 import numpy as np
 
-from src.dataset import load_classes, load_split, labels_matrix, tokenized_split
+from src.data.dataset import load_classes, load_split, labels_matrix, tokenized_split
 from src.eval import metrics
 from src.eval.baselines import KeywordBaseline
 from src.models import MultiLabelLogReg

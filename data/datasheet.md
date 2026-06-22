@@ -60,4 +60,4 @@
 
 ## Distribución y mantenimiento
 - Curado versionado en `data/processed/scipy/{train,eval}.jsonl` + `meta.json`.
-- Regenerable: `python -m src.extract.fetch scipy/scipy && python -m src.dataset`.
+- Regenerable: `python -m src.data.fetch scipy/scipy && python -m src.data.dataset`.

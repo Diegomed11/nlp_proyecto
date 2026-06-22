@@ -1,4 +1,4 @@
-"""Tokenizer técnico para issues de GitHub (Fase 1 — el peldaño firma del proyecto).
+"""Tokenizer técnico para issues de GitHub
 
 Un issue de SciPy no es texto natural: es code-switching entre prosa en inglés y
 código, tracebacks, identificadores (`scipy.sparse.linalg`, `csr_matrix`), paths,
@@ -7,7 +7,7 @@ informativo. Este tokenizer trata ese registro de forma explícita y *defendible
 
 Tubería:  segmentar (código/prosa/traceback)  →  normalizar  →  partir en tokens.
 
-DECISIONES (cada una justificable con un ejemplo, §17):
+DECISIONES 
 
 1. **Segmentar antes de tokenizar.** Se separan bloques ``` ``` ```, código inline
    `` `x` `` y tracebacks de la prosa, para poder tratarlos distinto (p. ej. *dropear*
@@ -40,7 +40,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-# --- Tokens especiales (cubren lo de alta cardinalidad) ---------------------
 T_URL = "<URL>"
 T_PATH = "<PATH>"
 T_VERSION = "<VERSION>"
@@ -50,7 +49,6 @@ T_USER = "<USER>"
 T_NUM = "<NUM>"
 T_TRACEBACK = "<TRACEBACK>"
 
-# --- Segmentación (markdown + traceback) ------------------------------------
 FENCE_RE = re.compile(r"```[\s\S]*?```|~~~[\s\S]*?~~~")
 INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
 
@@ -115,6 +113,31 @@ def _traceback_spans(text: str, max_lines: int = 200) -> list[tuple[int, int]]:
         spans.append((start, offsets[min(j, n)]))
         i = j if j > i else i + 1
     return spans
+
+
+# Frames de un traceback: archivo, línea y función. CPython estándar + IPython.
+_FRAME_CPYTHON = re.compile(r'File "([^"]+)", line (\d+), in (\S+)')
+_FRAME_IPYTHON = re.compile(r"^[> ]*([^\s][^\n]*?\.py)c?o?\s+in\s+(\w+)", re.MULTILINE)
+
+
+def traceback_frames(text: str) -> list[dict]:
+    """Extrae los frames `(file, line, function)` de los tracebacks del texto.
+
+    Sirve para localizar el problema: el frame más profundo dentro del proyecto suele
+    ser el sospechoso. Devuelve dicts {file, line, function} en orden del traceback.
+    """
+    frames: list[dict] = []
+    for s, e in _traceback_spans(text):
+        block = text[s:e]
+        matched = False
+        for f, ln, fn in _FRAME_CPYTHON.findall(block):
+            frames.append({"file": f, "line": int(ln), "function": fn})
+            matched = True
+        if not matched:  # formato IPython (sin línea en la cabecera del frame)
+            for f, fn in _FRAME_IPYTHON.findall(block):
+                frames.append({"file": f, "line": None, "function": fn})
+    return frames
+
 
 # --- Normalización (orden = más específico primero) -------------------------
 URL_RE = re.compile(r"https?://[^\s<>()\[\]]+")

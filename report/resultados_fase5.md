@@ -1,6 +1,6 @@
 # Resultados — Fase 5 (análisis de errores lingüístico)
 
-El corazón de la evaluación NLP (§9, §17). Reproducir: `python -m src.error_analysis`.
+El corazón de la evaluación NLP (§9, §17). Reproducir: `python -m src.eval.error_analysis`.
 
 ## ¿Sirve la representación donde el nombre del módulo NO aparece?
 

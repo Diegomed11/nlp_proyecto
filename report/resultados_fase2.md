@@ -3,7 +3,7 @@
 Tarea: clasificación multi-label de módulo en SciPy. **Split temporal** (train ≤2024 =
 7.396, eval 2025+ = 699). 20 clases (17 con soporte en eval). Logreg numpy (Adam, pesos
 de clase acotados cap=10, umbral fijo 0.5 — sin tunear en test). Reproducir:
-`python -m src.experiment`.
+`python -m src.eval.experiment`.
 
 | modelo | macroF1 | macroF1 (sup) | microF1 | subset acc | hamming | feats |
 |---|--:|--:|--:|--:|--:|--:|

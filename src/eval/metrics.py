@@ -1,4 +1,4 @@
-"""Métricas multi-label (§9). Todas desde los conteos por clase, numpy puro.
+"""Métricas multi-label. Todas desde los conteos por clase, numpy puro.
 
 - **F1 macro**: media de F1 por clase. Importa porque hay módulos raros (un modelo que
   solo acierta `stats` saca buen micro pero pésimo macro).

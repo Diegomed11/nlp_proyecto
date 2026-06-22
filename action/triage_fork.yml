@@ -42,17 +42,20 @@ jobs:
             const top = pred.top_suggestions
               .map(s => `\`${s.module}\` (${(s.confidence * 100).toFixed(0)}%)`)
               .join(', ');
-            const body = [
-              '🤖 **Triaje automático (NLP)**',
-              '',
-              `Módulo(s) probable(s): ${top}`,
-              '',
-              '_Predicción de un baseline TF-IDF + regresión logística entrenado sobre ' +
-              'issues históricos de SciPy. Es un asistente: confirma o corrige._',
-            ].join('\n');
+            const lines = ['**Automated triage (NLP)**', '', `Likely module(s): ${top}`];
+            if (pred.location) {
+              const L = pred.location;
+              const where = L.line ? `\`${L.file}:${L.line}\`` : `\`${L.file}\``;
+              lines.push('', `Probable location: ${where} in \`${L.function}()\` (from traceback)`);
+            }
+            if (pred.key_terms && pred.key_terms.length) {
+              lines.push('', 'Key identifiers: ' + pred.key_terms.map(t => `\`${t}\``).join(', '));
+            }
+            lines.push('', '_Baseline TF-IDF + logistic regression trained on historical ' +
+              'SciPy issues. This is an assistant: please confirm or correct._');
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body,
+              body: lines.join('\n'),
             });
