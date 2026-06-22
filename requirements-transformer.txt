@@ -1,4 +1,0 @@
-# Nivel 2 (transformer) — §8, §14. Se instala aparte para no contaminar el núcleo.
-transformers>=4.40
-torch>=2.2
-datasets>=2.19

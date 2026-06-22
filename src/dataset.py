@@ -22,6 +22,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+import numpy as np
+
 from src.extract.fetch import DEFAULT_OUT, is_pull_request, slugify
 
 PROCESSED = DEFAULT_OUT.parent / "processed"
@@ -97,6 +99,52 @@ def write_jsonl(records: list[dict], path: Path) -> None:
     with path.open("w", encoding="utf-8") as f:
         for r in records:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+
+# -- carga para modelado -----------------------------------------------------
+SCIPY_DIR = PROCESSED / "scipy"
+
+
+def load_split(split: str) -> list[dict]:
+    """Carga 'train' o 'eval' del dataset curado."""
+    path = SCIPY_DIR / f"{split}.jsonl"
+    with path.open(encoding="utf-8") as f:
+        return [json.loads(line) for line in f]
+
+
+def load_classes() -> list[str]:
+    """Vocabulario de clases (módulos) en orden fijo, desde meta.json."""
+    return json.loads((SCIPY_DIR / "meta.json").read_text(encoding="utf-8"))["classes"]
+
+
+def record_text(rec: dict) -> str:
+    """Texto de un issue para el modelo: título + cuerpo."""
+    return (rec.get("title") or "") + "\n" + (rec.get("body") or "")
+
+
+def labels_matrix(records: list[dict], classes: list[str]) -> np.ndarray:
+    """Matriz multi-hot (n_docs × n_clases) de las etiquetas de módulo."""
+    idx = {c: i for i, c in enumerate(classes)}
+    Y = np.zeros((len(records), len(classes)), dtype=np.int64)
+    for r, rec in enumerate(records):
+        for m in rec["modules"]:
+            if m in idx:
+                Y[r, idx[m]] = 1
+    return Y
+
+
+def tokenized_split(split: str, tokenizer, tag: str = "default") -> list[list[str]]:
+    """Tokeniza un split, con caché en disco por `tag` (config del tokenizer).
+
+    El caché (`tokens_<split>_<tag>.json`) está gitignored; evita re-tokenizar en
+    cada experimento. Cambiar de config => cambiar de `tag`.
+    """
+    cache = SCIPY_DIR / f"tokens_{split}_{tag}.json"
+    if cache.is_file():
+        return json.loads(cache.read_text(encoding="utf-8"))
+    toks = [tokenizer.tokenize(record_text(r)) for r in load_split(split)]
+    cache.write_text(json.dumps(toks, ensure_ascii=False), encoding="utf-8")
+    return toks
 
 
 def main() -> int:

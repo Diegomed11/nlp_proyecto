@@ -1,6 +1,9 @@
 # Datos crudos de la API (gitignored, se regeneran con src/extract) — §13
 data/raw/
 
+# Cachés de tokenización (regenerables)
+data/processed/**/tokens_*.json
+
 # Secretos
 .env
 *.token

@@ -1,0 +1,30 @@
+{
+  "classes": [
+    "_lib",
+    "cluster",
+    "constants",
+    "datasets",
+    "differentiate",
+    "fft",
+    "fftpack",
+    "integrate",
+    "interpolate",
+    "io",
+    "linalg",
+    "misc",
+    "ndimage",
+    "odr",
+    "optimize",
+    "signal",
+    "sparse",
+    "spatial",
+    "special",
+    "stats"
+  ],
+  "split_dotted": true,
+  "sublinear_tf": true,
+  "min_df": 5,
+  "threshold": 0.5,
+  "n_features": 8700,
+  "n_train": 8095
+}

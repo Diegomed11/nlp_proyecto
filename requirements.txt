@@ -4,7 +4,5 @@
 numpy>=2.0
 matplotlib>=3.8
 
-# Dependencias opcionales separadas a propósito (filosofía minimalista):
-#   - Nivel transformer:  requirements-transformer.txt  (transformers, torch)
-#   - Despliegue:         requirements-serve.txt        (onnxruntime)
-# Producción puede correr el baseline con <=2 dependencias.
+# Despliegue opcional: requirements-serve.txt (onnxruntime). El baseline en producción
+# corre con numpy como única dependencia no-stdlib.
