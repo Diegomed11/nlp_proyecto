@@ -1,0 +1,54 @@
+# Triaje automático de issues (NLP) — corre en ESTE repo (nlp_proyecto).
+# Al abrir (o reabrir) un issue: predice el módulo con el baseline y comenta el análisis.
+name: NLP issue triage
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencia (solo numpy)
+        run: pip install numpy
+
+      - name: Predecir el módulo
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          CONF_THRESHOLD: "0.5"
+        run: python -m action.label_issue > pred.json && cat pred.json
+
+      - name: Comentar el análisis en el issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const pred = JSON.parse(fs.readFileSync('pred.json', 'utf8'));
+            const top = pred.top_suggestions
+              .map(s => `\`${s.module}\` (${(s.confidence * 100).toFixed(0)}%)`)
+              .join(', ');
+            const body = [
+              '🤖 **Triaje automático (NLP)**',
+              '',
+              `Módulo(s) probable(s): ${top}`,
+              '',
+              '_Predicción de un baseline TF-IDF + regresión logística entrenado sobre ' +
+              'issues históricos de SciPy. Es un asistente: confirma o corrige._',
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
