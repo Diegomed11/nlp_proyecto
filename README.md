@@ -1,7 +1,7 @@
 # issue-triage-nlp
 
 Sistema de **triaje automático de issues** de repositorios open source masivos
-(SciPy / PyMC): lee título + cuerpo de un issue y predice el **módulo afectado**
+SciPy : lee título + cuerpo de un issue y predice el **módulo afectado**
 (multi-label), con extensiones a severidad y reviewer sugerido.
 
 El proyecto no se evalúa por el clasificador sino por la **tubería texto →
