@@ -1,4 +1,4 @@
-# issue-triage-nlp
+# issue-triage
 
 Sistema de **triaje automático de issues** de repositorios open source masivos
 SciPy : lee título + cuerpo de un issue y predice el **módulo afectado**
